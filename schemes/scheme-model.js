@@ -28,12 +28,21 @@ function remove(id) {
     return db('schemes').where({ id }).del();
 }
 
+function addStep(step, scheme_id) {
+    return db('steps').insert({ 
+        scheme_id: scheme_id, 
+        instructions: step.instructions, 
+        step_number: step.step_number 
+    });
+}
+
 module.exports = {
     find,
     findById,
     findSteps,
     add,
     update,
-    remove
+    remove,
+    addStep
 }
 
