@@ -10,7 +10,10 @@ function findById(id) {
 }
 
 function findSteps(id) {
-    return db('steps').where({ id });
+    return db.select('scheme_name', 'step_number', 'instructions')
+                .from('steps')
+                .innerJoin('schemes', 'schemes.id', 'steps.scheme_id')
+                .where({ scheme_id: id });
 }
 
 function add(scheme) {
@@ -21,11 +24,16 @@ function update(changes, id) {
     return db('schemes').where({ id }).update(changes);
 }
 
+function remove(id) {
+    return db('schemes').where({ id }).del();
+}
+
 module.exports = {
     find,
     findById,
+    findSteps,
     add,
-    update
-
+    update,
+    remove
 }
 
